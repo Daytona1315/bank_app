@@ -16,8 +16,8 @@ def cash_out(amount):
         print("Вы сняли "f'{amount}', "\nБаланс: ", balance)
 
 while True:
-    login = str(input("Hello! Please, log in!\n"))
-    password = str(input("Please, type your password!\n"))
+    login = str(input("Здравствуйте,войдите в систему!\n"))
+    password = str(input("Введите свой пароль!\n"))
     if auth(login, password) == True:
         break
     else:
