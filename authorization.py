@@ -36,6 +36,3 @@ def register(login:str, password:str, first_name:str, last_name:str):
     else:
         print(f'Пользователь {login} уже существует. Выберите другой логин.')
         return False
-
-
-
