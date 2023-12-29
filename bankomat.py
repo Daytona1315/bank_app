@@ -2,18 +2,18 @@ from authorization import auth
 
 balance = 0.0
 
-def cash_in(summa):
+def cash_in(amount):
     global balance
-    balance += summa
-    print("Ваш счёт пополнен на "f'{summa}', "\nБаланс: ", balance)
+    balance += amount
+    print("Ваш счёт пополнен на "f'{amount}', "\nБаланс: ", balance)
 
-def cash_out(summa):
+def cash_out(amount):
     global balance
-    if summa > balance:
+    if amount > balance:
         print("Недостаточно средств!")
     else:
-        balance -= summa
-        print("Вы сняли "f'{summa}', "\nБаланс: ", balance)
+        balance -= amount
+        print("Вы сняли "f'{amount}', "\nБаланс: ", balance)
 
 while True:
     login = str(input("Hello! Please, log in!\n"))
@@ -32,11 +32,11 @@ while True:
     try:
         choise = int(input())
         if choise == 1:
-            summa = float(input("Введите сумму для снятия: "))
-            cash_out(summa)
+            amount = float(input("Введите сумму для снятия: "))
+            cash_out(amount)
         elif choise == 2:
-            summa = float(input("Положите деньги в банкомат "))
-            cash_in(summa)
+            amount = float(input("Положите деньги в банкомат "))
+            cash_in(amount)
         elif choise == 3:
             break
     except ValueError:
