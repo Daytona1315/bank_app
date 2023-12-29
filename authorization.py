@@ -29,13 +29,10 @@ def register(login:str, password:str, first_name:str, last_name:str):
         sql.execute(f"INSERT INTO users (Login, Password, FirstName, LastName) "
                     f"VALUES ('{login}', '{password}', '{first_name}', '{last_name}')")
         db.commit()
-        print('Успешно!')
+        print('Регистрация прошла успешно!')
         return True
         sql.close()
         db.close()
     else:
         print(f'Пользователь {login} уже существует. Выберите другой логин.')
         return False
-
-
-

@@ -1,5 +1,4 @@
-from authorization import auth
-
+from authorization import *
 balance = 0.0
 
 def cash_in(amount):
@@ -16,8 +15,17 @@ def cash_out(amount):
         print("Вы сняли "f'{amount}', "\nБаланс: ", balance)
 
 while True:
-    login = str(input("Здравствуйте,войдите в систему!\n"))
-    password = str(input("Введите свой пароль!\n"))
+    login = input("Придумайте уникальный логин: \n")
+    password = str(input("Придумайте пароль: \n"))
+    first_name = input("Введите имя: \n")
+    last_name = input("Введите фамилию: \n")
+
+    register(login, password, first_name, last_name)
+    break
+
+while True:
+    login = str(input("Здравствуйте,войдите в систему\n"))
+    password = str(input("Введите свой пароль\n"))
     if auth(login, password) == True:
         break
     else:
@@ -41,3 +49,4 @@ while True:
             break
     except ValueError:
         print('Некорректный ввод')
+
