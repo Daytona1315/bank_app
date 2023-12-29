@@ -1,5 +1,5 @@
-from authorization import *
-#from functions import check_balance
+from authorization import auth, register
+from functions import check_balance
 
 def cash_in(amount):
     global balance
