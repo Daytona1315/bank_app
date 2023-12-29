@@ -1,5 +1,5 @@
 from authorization import *
-balance = 0.0
+#from functions import check_balance
 
 def cash_in(amount):
     global balance
@@ -24,8 +24,8 @@ while True:
     break
 
 while True:
-    login = str(input("Здравствуйте,войдите в систему\n"))
-    password = str(input("Введите свой пароль\n"))
+    login = str(input("Введите логин\n"))
+    password = str(input("Введите пароль\n"))
     if auth(login, password) == True:
         break
     else:
@@ -49,4 +49,3 @@ while True:
             break
     except ValueError:
         print('Некорректный ввод')
-
