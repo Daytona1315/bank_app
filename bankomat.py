@@ -1,6 +1,5 @@
 from authorization import auth
-
-balance = 0.0
+from functions import check_balance
 
 def cash_in(amount):
     global balance
@@ -16,8 +15,8 @@ def cash_out(amount):
         print("Вы сняли "f'{amount}', "\nБаланс: ", balance)
 
 while True:
-    login = str(input("Здравствуйте,войдите в систему!\n"))
-    password = str(input("Введите свой пароль!\n"))
+    login = str(input("Введите логин: "))
+    password = str(input("Введите пароль: "))
     if auth(login, password) == True:
         break
     else:
