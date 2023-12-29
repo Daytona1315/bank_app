@@ -1,7 +1,6 @@
 from authorization import *
 balance = 0.0
 
-
 def cash_in(amount):
     global balance
     balance += amount
@@ -15,17 +14,14 @@ def cash_out(amount):
         balance -= amount
         print("Вы сняли "f'{amount}', "\nБаланс: ", balance)
 
-
 while True:
     login = input("Придумайте уникальный логин: \n")
     password = str(input("Придумайте пароль: \n"))
     first_name = input("Введите имя: \n")
     last_name = input("Введите фамилию: \n")
 
-    if login == "q":
-        break
-    else:
-        register(login, password, first_name, last_name)
+    register(login, password, first_name, last_name)
+    break
 
 while True:
     login = str(input("Здравствуйте,войдите в систему\n"))
