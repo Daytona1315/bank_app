@@ -9,16 +9,16 @@ def auth(login:str, password:str):
     sql.execute(f"SELECT Login FROM users WHERE Login = '{login}'")
     if sql.fetchone() is None:
        print("Такого пользователя не существует!")
-       return False
+       return 1
     else:
          sql.execute(f"SELECT Password FROM users WHERE Password = '{password}'")
          if sql.fetchone() is None:
             print('Неверный пароль!')
-            return False
+            return 2
          else:
             current_user = login
             print('Авторизация прошла успешно!\nДобро пожаловать, 'f'{current_user.title()}')
-            return True
+            return 3
             sql.close()
             db.close()
 
