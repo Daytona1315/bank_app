@@ -31,12 +31,12 @@ while True:
     else:
         continue
 
-
 while True:
     print("Что вы хотите сделать сегодня?\n"
           "Введите '1' чтобы снять деньги\n"
           "Введите '2' чтобы пополнить счёт\n"
-          "Введите '3' чтобы выйти")
+          "Введите '3' чтобы узнать баланс счёта\n"
+          "Введите '4' чтобы выйти\n")
     try:
         choise = int(input())
         if choise == 1:
@@ -46,6 +46,8 @@ while True:
             amount = float(input("Положите деньги в банкомат "))
             cash_in(amount)
         elif choise == 3:
+            print(check_balance(login))
+        elif choise == 4:
             break
     except ValueError:
         print('Некорректный ввод')
