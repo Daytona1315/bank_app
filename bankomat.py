@@ -2,21 +2,28 @@ from authorization import auth, register
 from functions import check_balance, deposit, withdraw
 
 while True:
+    try:
+        choise = int(input('Войдите (1) или зарегистрируйтесь (2): '))
+        if choise == 1:
+            login = str(input("Введите логин\n"))
+            password = str(input("Введите пароль\n"))
+            if auth(login, password) == True:
+                break
+            else:
+                continue
+        else:
+            break
+    except ValueError:
+        print('Введите 1 чтобы войти или 2 чтобы зарегистрироваться')
+
+while True:
     login = input("Придумайте логин: \n")
     password = str(input("Придумайте пароль: \n"))
     first_name = input("Введите имя: \n")
     last_name = input("Введите фамилию: \n")
-
     register(login, password, first_name, last_name)
     break
 
-while True:
-    login = str(input("Введите логин\n"))
-    password = str(input("Введите пароль\n"))
-    if auth(login, password) == True:
-        break
-    else:
-        continue
 
 while True:
     print("Что вы хотите сделать сегодня?\n"
