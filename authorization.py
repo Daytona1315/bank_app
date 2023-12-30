@@ -29,7 +29,7 @@ def register(login:str, password:str, first_name:str, last_name:str):
         sql.execute(f"INSERT INTO users (Login, Password, FirstName, LastName) "
                     f"VALUES ('{login}', '{password}', '{first_name}', '{last_name}')")
         db.commit()
-        print('Регистрация прошла успешно!')
+        print('Успешно!')
         return True
         sql.close()
         db.close()

@@ -50,6 +50,5 @@ def withdraw(login:str, password:str, amount:float):
         # Если текущий баланс меньше чем запрашиваемое кол-во денег, функция возвращает False
         else:
                 return False
-                print('noo')
-                print(current_balance)
+
 
