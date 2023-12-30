@@ -1,21 +1,8 @@
 from authorization import auth, register
-from functions import check_balance
-
-def cash_in(amount):
-    global balance
-    balance += amount
-    print("Ваш счёт пополнен на "f'{amount}', "\nБаланс: ", balance)
-
-def cash_out(amount):
-    global balance
-    if amount > balance:
-        print("Недостаточно средств!")
-    else:
-        balance -= amount
-        print("Вы сняли "f'{amount}', "\nБаланс: ", balance)
+from functions import check_balance, deposit, withdraw
 
 while True:
-    login = input("Придумайте уникальный логин: \n")
+    login = input("Придумайте логин: \n")
     password = str(input("Придумайте пароль: \n"))
     first_name = input("Введите имя: \n")
     last_name = input("Введите фамилию: \n")
@@ -41,10 +28,10 @@ while True:
         choise = int(input())
         if choise == 1:
             amount = float(input("Введите сумму для снятия: "))
-            cash_out(amount)
+            withdraw(login, password, amount)
         elif choise == 2:
             amount = float(input("Положите деньги в банкомат "))
-            cash_in(amount)
+            deposit(login, amount)
         elif choise == 3:
             print(check_balance(login))
         elif choise == 4:
