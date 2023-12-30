@@ -53,4 +53,3 @@ def withdraw(login:str, password:str, amount:float):
                 print('noo')
                 print(current_balance)
 
-withdraw('danil', '1233', 200.0)
