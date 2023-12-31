@@ -3,7 +3,7 @@ from functions import check_balance, deposit, withdraw
 
 def menu(login, password):
     while True:
-        print("Что вы хотите сделать сегодня?\n"
+        print(f"{login.title()}, Что вы хотите сделать сегодня?\n"
             "Введите '1' чтобы снять деньги\n"
             "Введите '2' чтобы пополнить счёт\n"
             "Введите '3' чтобы узнать баланс счёта\n"
