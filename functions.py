@@ -1,6 +1,7 @@
 import sqlite3
 
 
+# Проверка баланса
 def check_balance(login:str):
     db = sqlite3.connect('server.db')
     sql = db.cursor()
@@ -11,6 +12,7 @@ def check_balance(login:str):
     sql.close()
 
 
+# Депозит денег на счёт
 def deposit(login:str, amount:float):
     db = sqlite3.connect('server.db')
     sql = db.cursor()
@@ -21,25 +23,18 @@ def deposit(login:str, amount:float):
     sql.close()
 
 
+# Снятие денег со счёта
 def withdraw(login:str, password:str, amount:float):
-    # Функция требует логин, пароль (как дополнительное подтверждение), и сумму денег для снятия
-
     db = sqlite3.connect('server.db')
     sql = db.cursor()
     sql.execute(f"SELECT Balance FROM users WHERE Login = '{login}' AND Password = '{password}'")
-
-    # Если указанные данные не найдены, функция возвращает False
     if sql.fetchone() is None:
         return 1
         db.close()
         sql.close()
     else:
         sql.execute(f"SELECT Balance FROM users WHERE Login = '{login}' AND Password = '{password}'")
-
-        # Получаем текущий баланс и записываем его в переменную current_balance
         current_balance = sql.fetchone()
-
-        # Если текущий баланс больше или равен сумме, то деньги списываются и функция возвращает True
         if current_balance[0] >= amount:
             sql.execute(f"UPDATE users SET Balance = Balance - {amount} "
                         f"WHERE Login = '{login}' AND Password = '{password}'")
@@ -47,8 +42,6 @@ def withdraw(login:str, password:str, amount:float):
             return 3
             db.close()
             sql.close()
-
-        # Если текущий баланс меньше чем запрашиваемое кол-во денег, функция возвращает False
         else:
             return 2
             db.close()

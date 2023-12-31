@@ -1,6 +1,7 @@
 import sqlite3
 
 
+# Авторизация
 def auth(login:str, password:str):
     db = sqlite3.connect('server.db')
     sql = db.cursor()
@@ -23,7 +24,7 @@ def auth(login:str, password:str):
             sql.close()
 
 
-
+# Регистрация
 def register(login:str, password:str, first_name:str, last_name:str):
     db = sqlite3.connect('server.db')
     sql = db.cursor()
@@ -35,7 +36,6 @@ def register(login:str, password:str, first_name:str, last_name:str):
         return True
         db.close()
         sql.close()
-
     else:
         return False
         db.close()
