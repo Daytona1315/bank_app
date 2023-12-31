@@ -10,14 +10,27 @@ def menu(login, password):
             "Введите '4' чтобы выйти\n")
         try:
             choise = int(input())
+           
+           #Снятие денег
             if choise == 1:
-                amount = float(input("Введите сумму для снятия: "))
-                withdraw(login, password, amount)
+                amount = float(input("Введите сумму для снятия: \n"))
+                msg = withdraw(login, password, amount)
+
+                if msg == 1:
+                    print("Ошибка!Попробуйте ввести другие даннные\n")
+                elif msg == 2:
+                    print("Недостаточно средств!\n")
+                elif msg == 3:
+                    print("Успешно снято -", amount, "руб\n")
+
+            #Пополнение счёта
             elif choise == 2:
-                amount = float(input("Положите деньги в банкомат "))
+                amount = float(input("Положите деньги в банкомат: \n"))
                 deposit(login, amount)
+
+                print("Успешное пополнение -", amount, "руб\n")
             elif choise == 3:
-                print(check_balance(login))
+                print("Баланс -", check_balance(login), "руб\n")
             elif choise == 4:
                 exit()
         except ValueError:
