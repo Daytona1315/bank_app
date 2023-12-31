@@ -1,5 +1,5 @@
 import sqlite3
-
+import re
 
 # Проверка баланса
 def check_balance(login:str):
@@ -46,3 +46,17 @@ def withdraw(login:str, password:str, amount:float):
             return 2
             db.close()
             sql.close()
+
+
+def password_check(password):
+    if len(password) < 8:
+        return "Пароль слишком короткий. Длина пароля должна быть не менее 8 символов."
+    if not re.search(r"[A-Z]", password):
+        return "Пароль должен содержать хотя бы одну букву в верхнем регистре."
+    if not re.search(r"[a-z]", password):
+        return "Пароль должен содержать хотя бы одну букву в нижнем регистре."
+    if not re.search(r"\d", password):
+        return "Пароль должен содержать хотя бы одну цифру."
+    if not re.search(r"\W", password):
+        return "Пароль должен содержать хотя бы один специальный символ."
+    return True
