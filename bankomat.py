@@ -22,8 +22,18 @@ def user_reg():
     while True:
         login = input("Придумайте логин: \n")
         password = input("Придумайте пароль: \n")
+
+        result = password_check(password)
+        if result == True:
+            print("\nПароль прошел проверку!\n")
+            pass
+        else:
+            print(result)
+            continue
+
         first_name = input("Введите имя: \n")
         last_name = input("Введите фамилию: \n")
+       
         x = register(login, password, first_name, last_name)
         if x == False:
             print("Такой пользователь уже существует")
