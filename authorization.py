@@ -2,6 +2,8 @@ import sqlite3
 
 
 def auth(login:str, password:str):
+    db = sqlite3.connect('server.db')
+    sql = db.cursor()
     current_user: str = 'none'
     sql.execute(f"SELECT Login FROM users WHERE Login = '{login}'")
     if sql.fetchone() is None:
@@ -23,6 +25,8 @@ def auth(login:str, password:str):
 
 
 def register(login:str, password:str, first_name:str, last_name:str):
+    db = sqlite3.connect('server.db')
+    sql = db.cursor()
     sql.execute(f"SELECT * FROM users WHERE Login = '{login}'")
     if sql.fetchone() is None:
         sql.execute(f"INSERT INTO users (Login, Password, FirstName, LastName) "
