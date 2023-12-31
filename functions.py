@@ -7,8 +7,8 @@ def check_balance(login:str):
     sql.execute(f"SELECT Balance FROM users WHERE Login = '{login}'")
     balance = sql.fetchone()
     return balance[0]
-    sql.close()
     db.close()
+    sql.close()
 
 
 def deposit(login:str, amount:float):
@@ -17,8 +17,8 @@ def deposit(login:str, amount:float):
     sql.execute(f"UPDATE users SET Balance = Balance + {amount} WHERE Login = '{login}'")
     db.commit()
     return True
-    sql.close()
     db.close()
+    sql.close()
 
 
 def withdraw(login:str, password:str, amount:float):
@@ -31,7 +31,8 @@ def withdraw(login:str, password:str, amount:float):
     # Если указанные данные не найдены, функция возвращает False
     if sql.fetchone() is None:
         return 1
-
+        db.close()
+        sql.close()
     else:
         sql.execute(f"SELECT Balance FROM users WHERE Login = '{login}' AND Password = '{password}'")
 
@@ -44,9 +45,11 @@ def withdraw(login:str, password:str, amount:float):
                         f"WHERE Login = '{login}' AND Password = '{password}'")
             db.commit()
             return 3
-            sql.close()
             db.close()
+            sql.close()
 
         # Если текущий баланс меньше чем запрашиваемое кол-во денег, функция возвращает False
         else:
-                return 2
+            return 2
+            db.close()
+            sql.close()
