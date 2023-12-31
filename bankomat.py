@@ -49,7 +49,7 @@ def user_reg():
         if x == False:
             print("Такой пользователь уже существует")
         else:
-            print("Успешная регистрация")
+            print("Успешная регистрация\n")
             menu(login, password)
         
 def user_auth():
