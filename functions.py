@@ -48,6 +48,7 @@ def withdraw(login:str, password:str, amount:float):
             sql.close()
 
 
+#Функция проверки пароля на сложность
 def password_check(password):
     if len(password) < 8:
         return "Пароль слишком короткий. Длина пароля должна быть не менее 8 символов."
