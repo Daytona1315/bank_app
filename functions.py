@@ -30,7 +30,7 @@ def withdraw(login:str, password:str, amount:float):
 
     # Если указанные данные не найдены, функция возвращает False
     if sql.fetchone() is None:
-        return False
+        return 1
 
     else:
         sql.execute(f"SELECT Balance FROM users WHERE Login = '{login}' AND Password = '{password}'")
@@ -43,10 +43,10 @@ def withdraw(login:str, password:str, amount:float):
             sql.execute(f"UPDATE users SET Balance = Balance - {amount} "
                         f"WHERE Login = '{login}' AND Password = '{password}'")
             db.commit()
-            return True
+            return 3
             sql.close()
             db.close()
 
         # Если текущий баланс меньше чем запрашиваемое кол-во денег, функция возвращает False
         else:
-                return False
+                return 2
