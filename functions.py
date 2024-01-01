@@ -30,8 +30,6 @@ def withdraw(login:str, password:str, amount:float):
     sql.execute(f"SELECT Balance FROM users WHERE Login = '{login}' AND Password = '{password}'")
     if sql.fetchone() is None:
         return 1
-        db.close()
-        sql.close()
     else:
         sql.execute(f"SELECT Balance FROM users WHERE Login = '{login}' AND Password = '{password}'")
         current_balance = sql.fetchone()
@@ -40,12 +38,10 @@ def withdraw(login:str, password:str, amount:float):
                         f"WHERE Login = '{login}' AND Password = '{password}'")
             db.commit()
             return 3
-            db.close()
-            sql.close()
         else:
             return 2
-            db.close()
-            sql.close()
+    db.close()
+    sql.close()
 
 
 #Функция проверки пароля на сложность
@@ -61,3 +57,27 @@ def password_check(password):
     if not re.search(r"\W", password):
         return "Пароль должен содержать хотя бы один специальный символ."
     return True
+
+def login_check(login):
+    db = sqlite3.connect('server.db')
+    sql = db.cursor()
+    sql.execute(f"SELECT Login FROM users WHERE Login = '{login}'")
+    if sql.fetchone() is None:
+        return True
+    else:
+        return False
+    db.close()
+    sql.close()
+
+
+def get_name(login):
+    db = sqlite3.connect('server.db')
+    sql = db.cursor()
+    sql.execute(f"SELECT FirstName, LastName FROM users WHERE Login = '{login}'")
+    name, *names = (sql.fetchall())
+    if name is None:
+        return False
+    else:
+        return name
+    db.close()
+    sql.close()
