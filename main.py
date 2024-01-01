@@ -30,7 +30,7 @@ def user_reg():
                 break
         while True:
             password = input("Придумайте пароль: \n")
-            result = password_check(password)
+            result = password_difficulty(password)
             if result == True:
                 break
             else:
@@ -89,7 +89,7 @@ def menu(login, password, first_name, last_name):
                 deposit(login, amount)
                 print("Успешное пополнение -", amount, "руб\n")
             elif choise == 3:
-                print("Баланс -", check_balance(login), "руб\n")
+                print("Баланс -", balance_check(login), "руб\n")
             elif choise == 4:
                 exit()
         except ValueError:
