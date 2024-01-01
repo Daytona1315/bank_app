@@ -27,7 +27,6 @@ def user_reg():
             else:
                 print(result)
                 continue
-
             check = login_check(login)
             if check == True:
                 print(f"Пользователь {login} уже существует!")
@@ -44,34 +43,43 @@ def user_reg():
                 continue
         while True:
             first_name = input("Введите имя: \n")
-            last_name = input("Введите фамилию: \n")
-
-            result = check_name_and_surname(first_name, last_name)
+            result = check_name(first_name)
             if result == True:
                 pass
             else:
                 print(result)
                 continue
-            func = register(login, password, first_name, last_name)
-            if func == False:
-                print("Такой пользователь уже существует")
-                continue
+            last_name = input("Введите фамилию: \n")
+            result = check_name(last_name)
+            if result == True:
+                pass
             else:
-                print("Успешная регистрация! \n")
-                menu(login, password, first_name, last_name)
+                print(result)
+                continue
+            register(login, password, first_name, last_name)
+            print("Успешная регистрация! \n")
+            menu(login, password, first_name, last_name)
 
 
 # Вход в аккаунт
 def user_auth():
     while True:
         login = str(input("Введите логин: \n"))
-        password = str(input("Введите пароль: \n"))
-        y = auth(login, password)
-        if y == 1:
+        check = login_check(login)
+        if check == False:
             print("Такого пользователя не существует")
-        elif y == 2:
+            continue
+        password = str(input("Введите пароль: \n"))
+        check = password_check(login, password)
+        if check == False:
             print("Неверный пароль!")
-        elif y == 3:
+            continue
+        result = auth(login, password)
+        if result == 1:
+            print("Такого пользователя не существует")
+        elif result == 2:
+            print("Неверный пароль!")
+        elif result == 3:
             names = get_name(login)
             first_name, last_name = names[0], names[1]
             menu(login, password, first_name, last_name)
@@ -87,45 +95,84 @@ def menu(login, password, first_name, last_name):
             "Введите '3' чтобы узнать баланс счёта\n"
             "Введите '4' чтобы перевести деньги\n"
             "Введите '5' чтобы выйти\n")
-        try:
-            choise = int(input())
-            if choise == 1:
-                amount = float(input("Введите сумму для снятия: \n"))
-                msg = withdraw(login, password, amount)
-                if msg == 1:
-                    print("Ошибка!Попробуйте ввести другие даннные\n")
-                elif msg == 2:
-                    print("Недостаточно средств!\n")
-                elif msg == 3:
-                    print("\nУспешно снято -", amount, "руб")
-            elif choise == 2:
-                amount = float(input("Положите деньги в банкомат: \n"))
-                deposit(login, amount)
-                print("\nУспешное пополнение -", amount, "руб")
-            elif choise == 3:
+        choise = int(input())
+        if choise == 1:
+            while True:
+                try:
+                    amount = float(input("Введите 'q' чтобы выйти.\n"
+                                         "Введите сумму для снятия: \n"))
+                except Exception:
+                    print("Ошибка ввода.")
+                    continue
+                if amount == 'q':
+                    break
+                elif amount < 1:
+                    print("Вы можете снять не меньше 1 рубля.")
+                    continue
+                else:
+                    msg = withdraw(login, password, amount)
+                    if msg == 1:
+                        print("Ошибка!Попробуйте ввести другие даннные\n")
+                        continue
+                    elif msg == 2:
+                        print("Недостаточно средств!\n")
+                        continue
+                    elif msg == 3:
+                        print("\nУспешно снято -", amount, "руб")
+                        break
+        elif choise == 2:
+            while True:
+                try:
+                    amount = float(input("Введите 'q' чтобы выйти.\n"
+                                         "Положите деньги в банкомат: \n"))
+                except Exception:
+                    print("Ошибка ввода.")
+                    continue
+                if amount == 'q':
+                    menu()
+                elif amount < 1:
+                    print("Вы не можете внести меньше 1 рубля.")
+                    continue
+                else:
+                    deposit(login, amount)
+                    print("\nУспешное пополнение -", amount, "руб")
+        elif choise == 3:
+            while True:
                 print("\nБаланс -", balance_check(login), "руб")
-            elif choise == 4:
-                while True:
-                    recipient = str(input("Введите логин пользователя которому хотите перевести деньги:\n"))
-                    message = login_check(recipient)
-                    if message == False:
-                        print("Данного пользователя не существует.")
-                        continue
-                    else:
-                        break
-                while True:
-                    amount = float(input("Введите сумму для перевода:\n"))
-                    if amount > balance_check(login):
-                        print("Недостаточно средств.")
-                        continue
-                    else:
-                        break
-                send_money(login, recipient, amount)
-                print("\nУспешно переведено -", amount, "руб")
-            elif choise == 5:
-                exit()
-        except ValueError:
-            print('Некорректный ввод')
+                break
+        elif choise == 4:
+            while True:
+                recipient = str(input("Введите 'q' чтобы выйти.\n"
+                                        "Введите логин пользователя которому хотите перевести деньги:\n"))
+                if recipient == 'q':
+                    break
+                elif recipient == login:
+                    print("Это ваш логин.")
+                    continue
+                search_login = login_check(recipient)
+                if search_login == False:
+                    print("Такого пользователя не существует.")
+                    continue
+                try:
+                    amount = float(input("Введите 'q' чтобы выйти.\n"
+                                         "Введите сумму для перевода:\n"))
+                except Exception:
+                    print("Ошибка ввода.")
+                    continue
+                if amount == 'q':
+                    menu()
+                elif amount < 1:
+                    print("Вы можете перевести не меньше 1 рубля.")
+                    continue
+                elif amount > balance_check(login):
+                    print("Недостаточно средств.")
+                    continue
+                else:
+                    send_money(login, recipient, amount)
+                    print("\nУспешно переведено -", amount, "руб")
+                    break
+        else:
+            exit()
 
 
 # Старт программы
