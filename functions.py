@@ -1,6 +1,48 @@
 import sqlite3
 import re
 
+
+# Авторизация
+def auth(login:str, password:str):
+    db = sqlite3.connect('server.db')
+    sql = db.cursor()
+    current_user: str = 'none'
+    sql.execute(f"SELECT Login FROM users WHERE Login = '{login}'")
+    if sql.fetchone() is None:
+       return 1
+       db.close()
+       sql.close()
+    else:
+         sql.execute(f"SELECT Password FROM users WHERE Password = '{password}'")
+         if sql.fetchone() is None:
+            return 2
+            db.close()
+            sql.close()
+         else:
+            current_user = login
+            return 3
+            db.close()
+            sql.close()
+
+
+# Регистрация
+def register(login:str, password:str, first_name:str, last_name:str):
+    db = sqlite3.connect('server.db')
+    sql = db.cursor()
+    sql.execute(f"SELECT * FROM users WHERE Login = '{login}'")
+    if sql.fetchone() is None:
+        sql.execute(f"INSERT INTO users (Login, Password, FirstName, LastName) "
+                    f"VALUES ('{login}', '{password}', '{first_name}', '{last_name}')")
+        db.commit()
+        return True
+        db.close()
+        sql.close()
+    else:
+        return False
+        db.close()
+        sql.close()
+
+
 # Проверка баланса
 def balance_check(login:str):
     db = sqlite3.connect('server.db')
@@ -43,6 +85,8 @@ def withdraw(login:str, password:str, amount:float):
     db.close()
     sql.close()
 
+
+# Перевод денег пользователю
 def send_money(login, recipient, amount):
     try:
         db = sqlite3.connect('server.db')
@@ -57,10 +101,25 @@ def send_money(login, recipient, amount):
     db.close()
     sql.close()
 
-# Функция проверки пароля на сложность
+
+# Проверка логина на корректность
+def login_difficulty(login):
+    if len(login) <= 6:
+        return "Длина логина должна быть не менее 6 символов."
+    words = all(ord('а') > ord(char) or ord(char) > ord('я') for char in login.lower())
+    if words == False:
+        return "Логин должен быть написан на латиннице"
+    allowed_characters = {'-', '_'}
+    spec_symbols = all(char.isalnum() or char in allowed_characters for char in login)
+    if spec_symbols == False:
+        return "В логине может использоваться только '-' или '_'."
+    return True
+    
+
+# Проверка пароля на сложность
 def password_difficulty(password):
     if len(password) < 8:
-        return "Пароль слишком короткий. Длина пароля должна быть не менее 8 символов."
+        return "Длина пароля должна быть не менее 8 символов."
     if not re.search(r"[A-Z]", password):
         return "Пароль должен содержать хотя бы одну букву в верхнем регистре."
     if not re.search(r"[a-z]", password):
@@ -72,19 +131,31 @@ def password_difficulty(password):
     return True
 
 
+# Проверка имени и фамилии на корректность
+def check_name_and_surname(firts_name, last_name):
+    if len(firts_name) == 0 or len(last_name) == 0:
+        return "Имя и фамилия не должны быть пустыми."
+    if len(firts_name) > 50 or len(last_name) > 50:
+        return "Имя и фамилия не должны превышать 50 символов в длину."
+    if not firts_name.isalpha() or not last_name.isalpha():
+        return "Имя и фамилия должны содержать только буквы."
+    return True
+
+
 # Проверка логина по базе данных
 def login_check(login):
     db = sqlite3.connect('server.db')
     sql = db.cursor()
     sql.execute(f"SELECT Login FROM users WHERE Login = '{login}'")
     if sql.fetchone() is None:
-        return True
-    else:
         return False
+    else:
+        return True
     db.close()
     sql.close()
 
 
+# Проверка пароля по базе данных
 def password_check(login, password):
     db = sqlite3.connect('server.db')
     sql = db.cursor()
@@ -98,6 +169,7 @@ def password_check(login, password):
     sql.close()
 
 
+# Функция которая возвращает имя
 def get_name(login):
     db = sqlite3.connect('server.db')
     sql = db.cursor()

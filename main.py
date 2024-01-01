@@ -1,4 +1,3 @@
-from authorization import auth, register
 from functions import *
 
 
@@ -22,8 +21,15 @@ def user_reg():
     while True:
         while True:
             login = input("Придумайте логин: \n")
-            result = login_check(login)
-            if result == False:
+            result = login_difficulty(login)
+            if result == True:
+                break
+            else:
+                print(result)
+                continue
+
+            check = login_check(login)
+            if check == True:
                 print(f"Пользователь {login} уже существует!")
                 continue
             else:
@@ -39,8 +45,15 @@ def user_reg():
         while True:
             first_name = input("Введите имя: \n")
             last_name = input("Введите фамилию: \n")
-            result = register(login, password, first_name, last_name)
-            if result == False:
+
+            result = check_name_and_surname(first_name, last_name)
+            if result == True:
+                pass
+            else:
+                print(result)
+                continue
+            func = register(login, password, first_name, last_name)
+            if func == False:
                 print("Такой пользователь уже существует")
                 continue
             else:
@@ -67,12 +80,13 @@ def user_auth():
 # Главное меню
 def menu(login, password, first_name, last_name):
     while True:
-        print(f"Здравствуйте {first_name.title()} {last_name.title()}!\n"
+        print(f"\nЗдравствуйте {first_name.title()} {last_name.title()}!\n"
               f"Что вы хотите сделать сегодня?\n"
             "Введите '1' чтобы снять деньги\n"
             "Введите '2' чтобы пополнить счёт\n"
             "Введите '3' чтобы узнать баланс счёта\n"
-            "Введите '4' чтобы выйти\n")
+            "Введите '4' чтобы перевести деньги\n"
+            "Введите '5' чтобы выйти\n")
         try:
             choise = int(input())
             if choise == 1:
@@ -83,14 +97,32 @@ def menu(login, password, first_name, last_name):
                 elif msg == 2:
                     print("Недостаточно средств!\n")
                 elif msg == 3:
-                    print("Успешно снято -", amount, "руб\n")
+                    print("\nУспешно снято -", amount, "руб")
             elif choise == 2:
                 amount = float(input("Положите деньги в банкомат: \n"))
                 deposit(login, amount)
-                print("Успешное пополнение -", amount, "руб\n")
+                print("\nУспешное пополнение -", amount, "руб")
             elif choise == 3:
-                print("Баланс -", balance_check(login), "руб\n")
+                print("\nБаланс -", balance_check(login), "руб")
             elif choise == 4:
+                while True:
+                    recipient = str(input("Введите логин пользователя которому хотите перевести деньги:\n"))
+                    message = login_check(recipient)
+                    if message == False:
+                        print("Данного пользователя не существует.")
+                        continue
+                    else:
+                        break
+                while True:
+                    amount = float(input("Введите сумму для перевода:\n"))
+                    if amount > balance_check(login):
+                        print("Недостаточно средств.")
+                        continue
+                    else:
+                        break
+                send_money(login, recipient, amount)
+                print("\nУспешно переведено -", amount, "руб")
+            elif choise == 5:
                 exit()
         except ValueError:
             print('Некорректный ввод')
