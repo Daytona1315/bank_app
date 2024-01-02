@@ -95,18 +95,18 @@ def menu(login, password, first_name, last_name):
             "Введите '3' чтобы узнать баланс счёта\n"
             "Введите '4' чтобы перевести деньги\n"
             "Введите '5' чтобы выйти\n")
-        choise = int(input())
-        if choise == 1:
+        choiсe = input()
+        if choiсe == '1':
             while True:
                 try:
-                    amount = float(input("Введите 'q' чтобы выйти.\n"
-                                         "Введите сумму для снятия: \n"))
+                    amount = input("Введите 'q' чтобы выйти.\n"
+                                         "Введите сумму для снятия: \n")
                 except Exception:
                     print("Ошибка ввода.")
                     continue
-                if amount == 'q':
+                if str(amount) == 'q':
                     break
-                elif amount < 1:
+                elif float(amount) < 1:
                     print("Вы можете снять не меньше 1 рубля.")
                     continue
                 else:
@@ -120,27 +120,27 @@ def menu(login, password, first_name, last_name):
                     elif msg == 3:
                         print("\nУспешно снято -", amount, "руб")
                         break
-        elif choise == 2:
+        elif choiсe == '2':
             while True:
                 try:
-                    amount = float(input("Введите 'q' чтобы выйти.\n"
-                                         "Положите деньги в банкомат: \n"))
+                    amount = input("Введите 'q' чтобы выйти.\n"
+                                         "Положите деньги в банкомат: \n")
                 except Exception:
                     print("Ошибка ввода.")
                     continue
-                if amount == 'q':
+                if str(amount) == 'q':
                     menu()
-                elif amount < 1:
+                elif float(amount) < 1:
                     print("Вы не можете внести меньше 1 рубля.")
                     continue
                 else:
                     deposit(login, amount)
                     print("\nУспешное пополнение -", amount, "руб")
-        elif choise == 3:
+        elif choiсe == '3':
             while True:
                 print("\nБаланс -", balance_check(login), "руб")
                 break
-        elif choise == 4:
+        elif choiсe == '4':
             while True:
                 recipient = str(input("Введите 'q' чтобы выйти.\n"
                                         "Введите логин пользователя которому хотите перевести деньги:\n"))
@@ -154,17 +154,17 @@ def menu(login, password, first_name, last_name):
                     print("Такого пользователя не существует.")
                     continue
                 try:
-                    amount = float(input("Введите 'q' чтобы выйти.\n"
-                                         "Введите сумму для перевода:\n"))
+                    amount = input("Введите 'q' чтобы выйти.\n"
+                                         "Введите сумму для перевода:\n")
                 except Exception:
                     print("Ошибка ввода.")
                     continue
-                if amount == 'q':
+                if str(amount) == 'q':
                     menu()
-                elif amount < 1:
+                elif float(amount) < 1:
                     print("Вы можете перевести не меньше 1 рубля.")
                     continue
-                elif amount > balance_check(login):
+                elif float(amount) > balance_check(login):
                     print("Недостаточно средств.")
                     continue
                 else:
@@ -172,7 +172,9 @@ def menu(login, password, first_name, last_name):
                     print("\nУспешно переведено -", amount, "руб")
                     break
         else:
+            main()
             exit()
+
 
 
 # Старт программы
