@@ -132,12 +132,12 @@ def password_difficulty(password):
 
 
 # Проверка имени и фамилии на корректность
-def check_name_and_surname(firts_name, last_name):
-    if len(firts_name) == 0 or len(last_name) == 0:
+def check_name(name):
+    if len(name) == 0:
         return "Имя и фамилия не должны быть пустыми."
-    if len(firts_name) > 50 or len(last_name) > 50:
+    if len(name) > 50:
         return "Имя и фамилия не должны превышать 50 символов в длину."
-    if not firts_name.isalpha() or not last_name.isalpha():
+    if not name.isalpha():
         return "Имя и фамилия должны содержать только буквы."
     return True
 
